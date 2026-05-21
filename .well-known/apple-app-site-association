@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["5FA35JTA4Z.aiden.Wave-Browser.watchkitapp"],
+        "components": []
+      }
+    ]
+  },
+  "webcredentials": {
+    "apps": ["5FA35JTA4Z.aiden.Wave-Browser.watchkitapp"]
+  }
+}
