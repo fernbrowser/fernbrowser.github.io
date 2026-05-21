@@ -630,7 +630,7 @@
       Fern Browser on your watch can AutoFill it without you ever typing again.
     </p>
 
-    <form id="save-form" class="save-form" autocomplete="on" action="#saved" method="get">
+    <form id="save-form" class="save-form" autocomplete="on" action="#setup" method="get">
       <label class="save-row">
         <span class="save-label">Account</span>
         <input
@@ -774,40 +774,33 @@
     document.getElementById("year").textContent = new Date().getFullYear();
 
     // Save-to-Passwords flow.
-    // The form's only purpose is to trigger Safari's "Save Password?" prompt
-    // for this domain. We never read the password, never send it anywhere,
-    // and we wipe the input immediately after the browser captures it.
+    // Safari only shows "Save Password?" when a form submission causes a real
+    // page navigation. We must NOT call e.preventDefault() — instead we let
+    // the form submit normally (navigating to #setup), and on page load we
+    // detect the ?saved=1 query param to reveal the success message.
     (function () {
-      const form    = document.getElementById("save-form");
       const success = document.getElementById("save-success");
-      if (!form) return;
 
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        // If the browser supports the Credential Management API, hand it the
-        // credential explicitly — this is the most reliable path to prompting
-        // a save in Safari, Chrome, and Edge.
-        try {
-          if (window.PasswordCredential) {
-            const cred = new PasswordCredential(form);
-            if (navigator.credentials && navigator.credentials.store) {
-              navigator.credentials.store(cred).catch(function () {});
-            }
-          }
-        } catch (err) { /* ignore — fall through to heuristic */ }
-
-        // Reveal the success state and scroll it into view.
+      // If the page loaded with ?saved=1, show the success banner.
+      if (success && new URLSearchParams(window.location.search).get("saved") === "1") {
         success.hidden = false;
-        success.scrollIntoView({ behavior: "smooth", block: "center" });
-
-        // Wipe the password field so the key never lingers in the DOM.
-        const pw = form.querySelector('input[type="password"]');
-        if (pw) {
-          // Defer the clear so the browser's save heuristic still sees a value.
-          setTimeout(function () { pw.value = ""; }, 50);
+        // Clean the URL so a refresh doesn't re-show the banner.
+        if (window.history && window.history.replaceState) {
+          var cleanUrl = window.location.pathname + "#setup";
+          window.history.replaceState(null, "", cleanUrl);
         }
-      });
+        setTimeout(function () {
+          success.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 100);
+      }
+
+      // Append ?saved=1 to the form action so we can detect the return visit.
+      var form = document.getElementById("save-form");
+      if (form) {
+        form.action = "?saved=1#setup";
+        // Do NOT call e.preventDefault() — the navigation is what triggers
+        // Safari's "Save Password?" prompt.
+      }
     })();
   </script>
 </body>
