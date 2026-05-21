@@ -1,0 +1,692 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Privacy Policy — Fern Browser</title>
+  <meta name="description" content="The full privacy policy for Fern Browser and fernbrowser.github.io. No data collected by the developer; full disclosure of third-party services." />
+  <meta name="theme-color" content="#011142" />
+  <meta name="robots" content="index, follow" />
+
+  <link rel="icon" type="image/png" href="./appicon.png" />
+  <link rel="apple-touch-icon" href="./appicon.png" />
+
+  <style>
+    :root {
+      --ink:        #ffffff;
+      --ink-mute:   rgba(255, 255, 255, 0.72);
+      --ink-faint:  rgba(255, 255, 255, 0.50);
+      --hairline:   rgba(255, 255, 255, 0.10);
+      --card:       rgba(255, 255, 255, 0.045);
+      --abyss:  #011142;
+      --navy:   #011C6B;
+      --deep:   #01258F;
+      --royal:  #0231BD;
+      --bright: #023BE6;
+      --aqua:   #66f2dc;
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 10px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display",
+                   "Inter", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: #000;
+      color: var(--ink);
+      line-height: 1.65;
+      font-size: 15px;
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .aurora {
+      position: fixed; inset: -20%; z-index: -1;
+      background:
+        radial-gradient(35% 30% at 18% 22%, var(--bright) 0%, transparent 70%),
+        radial-gradient(40% 35% at 82% 65%, var(--royal) 0%, transparent 70%),
+        radial-gradient(45% 35% at 50% 50%, var(--deep)  0%, transparent 75%),
+        linear-gradient(180deg, var(--abyss), #000 80%);
+      filter: blur(80px);
+      opacity: 0.65;
+      animation: drift 24s ease-in-out infinite alternate;
+    }
+    @keyframes drift {
+      from { transform: translate3d(-30px, -20px, 0) scale(1.05); }
+      to   { transform: translate3d( 30px,  20px, 0) scale(1.15); }
+    }
+
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(20px) saturate(140%);
+      -webkit-backdrop-filter: blur(20px) saturate(140%);
+      background: rgba(0, 0, 0, 0.45);
+      border-bottom: 0.5px solid var(--hairline);
+    }
+    .nav-inner {
+      max-width: 760px; margin: 0 auto;
+      padding: 14px 28px;
+      display: flex; align-items: center; justify-content: space-between; gap: 16px;
+    }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 15px; letter-spacing: 0.2px; color: var(--ink); text-decoration: none; }
+    .brand-glyph {
+      width: 26px; height: 26px;
+      border-radius: 7px;
+      object-fit: cover;
+      box-shadow: 0 4px 14px rgba(2,59,230,0.30);
+    }
+    .nav-back {
+      color: var(--ink-mute);
+      text-decoration: none;
+      font-size: 13px; font-weight: 500;
+      display: inline-flex; align-items: center; gap: 5px;
+      transition: color .15s;
+    }
+    .nav-back:hover { color: var(--ink); }
+
+    main {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 56px 28px 80px;
+    }
+
+    .doc-title {
+      font-size: 42px; font-weight: 800;
+      letter-spacing: -1px; line-height: 1.05;
+      margin: 0 0 12px;
+    }
+    .doc-dates {
+      color: var(--ink-faint);
+      font-size: 13px;
+      margin: 0 0 36px;
+    }
+
+    .summary-card {
+      background: linear-gradient(180deg, rgba(102,242,220,0.07), rgba(2,59,230,0.07));
+      border: 0.5px solid rgba(102, 242, 220, 0.30);
+      border-radius: var(--radius-lg);
+      padding: 24px 26px;
+      margin-bottom: 32px;
+    }
+    .summary-card h2 {
+      font-size: 10px; font-weight: 800;
+      letter-spacing: 1.6px; text-transform: uppercase;
+      color: var(--aqua); margin: 0 0 10px;
+    }
+    .summary-card p { margin: 0 0 10px; font-size: 14px; color: var(--ink); }
+    .summary-card p:last-child { margin-bottom: 0; }
+
+    .toc {
+      background: var(--card);
+      border: 0.5px solid var(--hairline);
+      border-radius: var(--radius-md);
+      padding: 20px 22px;
+      margin-bottom: 40px;
+    }
+    .toc h2 {
+      font-size: 10px; font-weight: 800;
+      letter-spacing: 1.6px; text-transform: uppercase;
+      color: var(--ink-mute); margin: 0 0 10px;
+    }
+    .toc ol {
+      counter-reset: toc;
+      list-style: none;
+      padding: 0; margin: 0;
+      column-count: 2; column-gap: 24px;
+      font-size: 13px;
+    }
+    .toc li {
+      counter-increment: toc;
+      margin-bottom: 4px;
+      break-inside: avoid;
+    }
+    .toc li::before {
+      content: counter(toc) ".";
+      color: var(--ink-faint);
+      margin-right: 6px;
+    }
+    .toc a { color: var(--ink-mute); text-decoration: none; }
+    .toc a:hover { color: var(--aqua); }
+
+    h2.section-title {
+      font-size: 22px; font-weight: 800;
+      letter-spacing: -0.4px; line-height: 1.2;
+      margin: 44px 0 14px;
+      padding-top: 12px;
+      border-top: 0.5px solid var(--hairline);
+    }
+    h2.section-title:first-of-type { border-top: 0; padding-top: 0; }
+    h3.sub-title {
+      font-size: 15px; font-weight: 700;
+      margin: 22px 0 8px;
+      color: var(--ink);
+    }
+    p { margin: 0 0 14px; color: var(--ink); }
+    p.mute { color: var(--ink-mute); font-size: 13px; }
+    a { color: var(--aqua); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    ul, ol.body-list { margin: 0 0 16px; padding-left: 22px; }
+    li { margin-bottom: 6px; }
+
+    strong { color: var(--ink); font-weight: 600; }
+    code {
+      font-family: ui-monospace, "SF Mono", Menlo, monospace;
+      font-size: 12px;
+      background: rgba(255,255,255,0.07);
+      padding: 1px 6px;
+      border-radius: 4px;
+      color: var(--aqua);
+    }
+
+    footer {
+      border-top: 0.5px solid var(--hairline);
+      margin-top: 48px;
+      padding-top: 24px;
+      color: var(--ink-faint);
+      font-size: 12px;
+    }
+    footer a { color: var(--ink-mute); }
+
+    @media (max-width: 600px) {
+      main { padding: 36px 22px 60px; }
+      .doc-title { font-size: 32px; }
+      .toc ol { column-count: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="aurora" aria-hidden="true"></div>
+
+  <nav>
+    <div class="nav-inner">
+      <a class="brand" href="./">
+        <img class="brand-glyph" src="./appicon.png" alt="" aria-hidden="true" />
+        Fern Browser
+      </a>
+      <a class="nav-back" href="./">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        Back to home
+      </a>
+    </div>
+  </nav>
+
+  <main>
+    <h1 class="doc-title">Privacy Policy</h1>
+    <p class="doc-dates">
+      Last updated: May 21, 2026 &nbsp;·&nbsp; Effective: May 21, 2026
+    </p>
+
+    <!-- ─────────── PLAIN ENGLISH SUMMARY ─────────── -->
+    <section class="summary-card" aria-label="Plain English summary">
+      <h2>The short version</h2>
+      <p>
+        Fern Browser doesn't have a server. The developer can't see your chats,
+        what sites you visit, or what's in your bookmarks &mdash; there's no
+        backend to store any of it. Everything lives on your Apple Watch.
+      </p>
+      <p>
+        When you chat with an AI model, your messages go directly from your
+        watch to OpenRouter (a third-party AI routing service) using your own
+        API key. OpenRouter and the upstream model provider then receive that
+        content. Outside of OpenRouter and Apple's own services, no data leaves
+        your device.
+      </p>
+      <p>
+        The website at <a href="./">fernbrowser.github.io</a> collects nothing.
+        No analytics, no cookies, no third-party scripts. The Save-to-Passwords
+        form runs entirely in your browser &mdash; the key you paste never
+        leaves your device.
+      </p>
+      <p class="mute">
+        The full policy below is required by law. The summary above is what's
+        actually true.
+      </p>
+    </section>
+
+    <!-- ─────────── TOC ─────────── -->
+    <section class="toc" aria-label="Table of contents">
+      <h2>Contents</h2>
+      <ol>
+        <li><a href="#who">Who this policy is from</a></li>
+        <li><a href="#scope">What this covers</a></li>
+        <li><a href="#not-collected">Information not collected</a></li>
+        <li><a href="#local">Information stored on your device</a></li>
+        <li><a href="#third-parties">Third parties</a></li>
+        <li><a href="#legal-basis">Legal basis (GDPR)</a></li>
+        <li><a href="#transfers">International transfers</a></li>
+        <li><a href="#rights">Your rights</a></li>
+        <li><a href="#retention">Data retention</a></li>
+        <li><a href="#security">Security</a></li>
+        <li><a href="#cookies">Cookies &amp; tracking</a></li>
+        <li><a href="#app-store">Apple App Store disclosures</a></li>
+        <li><a href="#changes">Changes to this policy</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ol>
+    </section>
+
+    <!-- ─────────── 1. WHO ─────────── -->
+    <h2 id="who" class="section-title">1. Who this policy is from</h2>
+    <p>
+      Fern Browser is developed and maintained by <strong>Aiden Mathew</strong>,
+      an independent developer. For the purposes of data protection law, Aiden
+      Mathew acts as the "data controller" for any personal data processed in
+      connection with the app or this website.
+    </p>
+    <p>
+      You can reach the developer via <a href="https://github.com/fernbrowser/fernbrowser.github.io/issues">GitHub
+      Issues</a>. There is no separate company, organization, or staff &mdash;
+      this is an independent project.
+    </p>
+
+    <!-- ─────────── 2. SCOPE ─────────── -->
+    <h2 id="scope" class="section-title">2. What this covers</h2>
+    <p>This policy applies to:</p>
+    <ul>
+      <li>The <strong>Fern Browser</strong> app for Apple Watch, distributed via the App Store.</li>
+      <li>The website at <strong><a href="./">fernbrowser.github.io</a></strong>, including its setup page.</li>
+    </ul>
+    <p>
+      This policy does <strong>not</strong> apply to the privacy practices of
+      OpenRouter, the upstream AI providers OpenRouter routes to (OpenAI,
+      Anthropic, Google, Meta, DeepSeek, and others), Apple, GitHub, or any
+      website you visit using the app's URL feature. Each of those services
+      has its own privacy policy, linked where relevant below.
+    </p>
+
+    <!-- ─────────── 3. NOT COLLECTED ─────────── -->
+    <h2 id="not-collected" class="section-title">3. Information not collected by the developer</h2>
+    <p>
+      Fern Browser does not have a backend server. The developer does not
+      operate any system that collects, stores, or processes user data. In
+      practical terms, this means none of the following are collected,
+      transmitted to, or accessible by the developer:
+    </p>
+    <ul>
+      <li>Your name, email, phone number, or any account information.</li>
+      <li>Your chat messages, AI prompts, or AI responses.</li>
+      <li>Your browsing history, bookmarks, or visited URLs.</li>
+      <li>Your IP address, device identifier, or precise location.</li>
+      <li>Crash reports, analytics events, performance telemetry, or usage statistics.</li>
+      <li>Any payment or billing information (the app is free).</li>
+    </ul>
+    <p>
+      The app contains no third-party software development kits (SDKs) for
+      analytics, advertising, attribution, crash reporting, or social
+      integration. The website contains no analytics, no tracking pixels, no
+      third-party JavaScript, and no third-party cookies.
+    </p>
+
+    <!-- ─────────── 4. LOCAL ─────────── -->
+    <h2 id="local" class="section-title">4. Information stored on your device</h2>
+    <p>
+      The app stores certain information locally on your Apple Watch so that
+      the app can function. This data <strong>does not leave your device</strong>
+      except where explicitly noted in Section 5 (third parties).
+    </p>
+    <ul>
+      <li>
+        <strong>Your OpenRouter API key</strong>, stored in Apple Keychain with
+        the access level <code>kSecAttrAccessibleWhenUnlockedThisDeviceOnly</code>.
+        This means the key is encrypted at rest, accessible only when the
+        device is unlocked, and is not synced via iCloud Keychain in a form
+        accessible to other apps or devices.
+      </li>
+      <li>
+        <strong>Your browsing history</strong> (URLs you've opened through the
+        app and the timestamps), stored locally in the app's preferences.
+      </li>
+      <li>
+        <strong>Your bookmarks</strong> (URLs you've saved), stored locally.
+      </li>
+      <li>
+        <strong>Your selected AI model</strong> preference, stored locally.
+      </li>
+      <li>
+        <strong>Current chat session messages and responses</strong>, held in
+        memory while the app is running. These are not persisted across app
+        launches.
+      </li>
+    </ul>
+    <p>
+      You may delete any of this data at any time using the controls inside the
+      app (delete history, delete bookmarks, clear chat, remove API key) or by
+      uninstalling the app. Uninstalling the app removes all locally stored
+      data.
+    </p>
+
+    <!-- ─────────── 5. THIRD PARTIES ─────────── -->
+    <h2 id="third-parties" class="section-title">5. Third parties</h2>
+
+    <h3 class="sub-title">5.1 OpenRouter</h3>
+    <p>
+      When you use the AI chat feature, your message and any prior context in
+      the current chat session are transmitted from your Apple Watch directly
+      to OpenRouter (<a href="https://openrouter.ai">openrouter.ai</a>) over
+      HTTPS, authenticated with your own OpenRouter API key. OpenRouter
+      forwards the request to the upstream AI model provider you selected and
+      returns the response.
+    </p>
+    <p>
+      The developer of Fern Browser does <strong>not</strong> proxy, log, or
+      otherwise have access to the content of these messages. OpenRouter
+      processes your messages according to its own privacy policy:
+      <a href="https://openrouter.ai/privacy">openrouter.ai/privacy</a>. The
+      upstream AI provider you select (OpenAI, Anthropic, Google, Meta,
+      DeepSeek, and others routed via OpenRouter) processes your messages
+      according to its own privacy policy.
+    </p>
+    <p>
+      You may stop transmitting data to OpenRouter at any time by not using the
+      AI chat feature or by removing your API key in the app's settings.
+    </p>
+
+    <h3 class="sub-title">5.2 Apple</h3>
+    <p>
+      The app uses several Apple-provided services as part of normal watchOS
+      operation:
+    </p>
+    <ul>
+      <li><strong>Apple Keychain</strong> stores your OpenRouter API key on-device.</li>
+      <li><strong>ASWebAuthenticationSession</strong> renders any URL you open through the app in Apple's secure web view.</li>
+      <li><strong>iCloud Keychain</strong> may sync the saved password between your Apple devices if you set it up via the website's Save-to-Passwords flow. The sync is end-to-end encrypted by Apple.</li>
+      <li><strong>The App Store</strong> handles distribution of the app.</li>
+    </ul>
+    <p>
+      Apple's privacy practices are governed by Apple's Privacy Policy:
+      <a href="https://www.apple.com/legal/privacy/">apple.com/legal/privacy</a>.
+    </p>
+
+    <h3 class="sub-title">5.3 GitHub Pages (website hosting)</h3>
+    <p>
+      The website at <a href="./">fernbrowser.github.io</a> is hosted on GitHub
+      Pages. GitHub may collect standard web server logs (IP addresses,
+      user-agent strings, request timestamps) as part of its normal hosting
+      operation. The developer does not have access to these logs. GitHub's
+      privacy practices are governed by GitHub's Privacy Statement:
+      <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement</a>.
+    </p>
+
+    <!-- ─────────── 6. LEGAL BASIS ─────────── -->
+    <h2 id="legal-basis" class="section-title">6. Legal basis for processing (GDPR)</h2>
+    <p>
+      If you are located in the European Economic Area, the United Kingdom, or
+      Switzerland, the General Data Protection Regulation (GDPR) and equivalent
+      laws apply. The legal bases on which the developer processes personal
+      data are as follows:
+    </p>
+    <ul>
+      <li>
+        <strong>Performance of a contract</strong> (Article 6(1)(b)): when you
+        use the AI chat feature, transmitting your message to OpenRouter is
+        necessary to provide the service you have requested.
+      </li>
+      <li>
+        <strong>Legitimate interests</strong> (Article 6(1)(f)): the app must
+        store your API key, history, and bookmarks locally to function. These
+        legitimate interests are balanced against your privacy because the data
+        never leaves your device.
+      </li>
+    </ul>
+    <p>
+      The developer does <strong>not</strong> rely on consent (Article 6(1)(a))
+      for any processing, because no data is collected or processed by the
+      developer outside the on-device operation described above.
+    </p>
+
+    <!-- ─────────── 7. TRANSFERS ─────────── -->
+    <h2 id="transfers" class="section-title">7. International data transfers</h2>
+    <p>
+      When you use the AI chat feature, your messages may be transmitted to
+      servers located outside your country of residence, including the United
+      States, where OpenRouter and most upstream AI providers operate. Each of
+      those services is responsible for applying appropriate safeguards
+      (Standard Contractual Clauses, the EU-US Data Privacy Framework where
+      applicable, or equivalent mechanisms) for international transfers. See
+      their respective privacy policies for details.
+    </p>
+
+    <!-- ─────────── 8. RIGHTS ─────────── -->
+    <h2 id="rights" class="section-title">8. Your rights</h2>
+
+    <h3 class="sub-title">8.1 European Economic Area, United Kingdom, Switzerland (GDPR / UK GDPR / FADP)</h3>
+    <p>You have the following rights:</p>
+    <ul>
+      <li>
+        <strong>Right of access</strong> (Article 15): there is no developer-held
+        data to provide. The data stored on your watch is accessible directly
+        in the app.
+      </li>
+      <li>
+        <strong>Right to rectification</strong> (Article 16): you can edit
+        history, bookmarks, your API key, and your model preference in the
+        app.
+      </li>
+      <li>
+        <strong>Right to erasure</strong> (Article 17): you can delete history,
+        bookmarks, and your API key in the app. Uninstalling the app removes
+        all locally stored data.
+      </li>
+      <li>
+        <strong>Right to restriction of processing</strong> (Article 18): you
+        can stop using the AI chat feature at any time, which halts all
+        transmission to third parties.
+      </li>
+      <li>
+        <strong>Right to data portability</strong> (Article 20): local data is
+        not currently exportable in a machine-readable format. If you require
+        a copy of your local data, contact the developer.
+      </li>
+      <li>
+        <strong>Right to object</strong> (Article 21): you can stop using the
+        app at any time.
+      </li>
+      <li>
+        <strong>Right not to be subject to automated decision-making</strong>
+        (Article 22): the app does not make automated decisions that produce
+        legal effects concerning you.
+      </li>
+      <li>
+        <strong>Right to lodge a complaint</strong> (Article 77): you may
+        complain to your local Data Protection Authority. A list of EU
+        authorities is at
+        <a href="https://edpb.europa.eu/about-edpb/about-edpb/members_en">edpb.europa.eu/about-edpb/about-edpb/members</a>.
+        UK residents may contact the ICO at
+        <a href="https://ico.org.uk">ico.org.uk</a>.
+      </li>
+    </ul>
+
+    <h3 class="sub-title">8.2 California (CCPA / CPRA)</h3>
+    <p>
+      California residents have the following rights under the California
+      Consumer Privacy Act, as amended by the California Privacy Rights Act:
+    </p>
+    <ul>
+      <li>
+        <strong>Right to know</strong> what personal information is collected,
+        used, disclosed, and sold. As stated in Section 3, the developer
+        collects no personal information.
+      </li>
+      <li>
+        <strong>Right to delete</strong> personal information. The developer
+        holds no personal information. You can delete on-device data in the
+        app at any time.
+      </li>
+      <li>
+        <strong>Right to correct</strong> inaccurate personal information.
+        On-device data is editable in the app.
+      </li>
+      <li>
+        <strong>Right to opt-out of sale or sharing</strong> of personal
+        information for cross-context behavioral advertising. The developer
+        does not sell or share personal information for any purpose.
+      </li>
+      <li>
+        <strong>Right to limit use of sensitive personal information</strong>.
+        The developer does not collect sensitive personal information.
+      </li>
+      <li>
+        <strong>Right to non-discrimination</strong> for exercising any of
+        these rights.
+      </li>
+    </ul>
+    <p>
+      In the preceding twelve (12) months, the developer has not collected,
+      sold, shared, or disclosed any personal information.
+    </p>
+
+    <h3 class="sub-title">8.3 Other US states</h3>
+    <p>
+      Residents of Virginia (VCDPA), Colorado (CPA), Connecticut (CTDPA), Utah
+      (UCPA), Texas (TDPSA), Oregon, Montana, and other US states with
+      comprehensive privacy laws have substantially similar rights to those
+      described above, including the right to access, delete, correct, and
+      opt-out of targeted advertising or profiling. Because the developer does
+      not collect personal data, these rights are exercised by managing
+      on-device data inside the app.
+    </p>
+
+    <h3 class="sub-title">8.4 Children's privacy</h3>
+    <p>
+      Fern Browser is not directed to children under 13 (in the United States,
+      under COPPA) or under 16 (in the EEA, under GDPR Article 8). The
+      developer does not knowingly collect personal information from children.
+      Because no personal information is collected by the developer at all,
+      this restriction is satisfied by default. If you are a parent or
+      guardian and believe a child has used the app in a way you object to,
+      please contact the developer &mdash; though note that no server-side
+      data exists to delete.
+    </p>
+
+    <h3 class="sub-title">8.5 How to exercise your rights</h3>
+    <p>
+      To exercise any right that requires action by the developer, contact via
+      <a href="https://github.com/fernbrowser/fernbrowser.github.io/issues">GitHub Issues</a>.
+      Most rights, however, are exercisable directly in the app (delete
+      history, remove key, uninstall).
+    </p>
+
+    <!-- ─────────── 9. RETENTION ─────────── -->
+    <h2 id="retention" class="section-title">9. Data retention</h2>
+    <ul>
+      <li><strong>On-device data</strong> (history, bookmarks, API key, model preference): retained until you delete it inside the app or uninstall the app.</li>
+      <li><strong>Chat session data in memory</strong>: discarded when the app is terminated or the chat is cleared.</li>
+      <li><strong>Data held by OpenRouter</strong>: see OpenRouter's privacy policy. The developer does not control this.</li>
+      <li><strong>Data held by upstream AI providers</strong>: see each provider's policy.</li>
+      <li><strong>Data held by GitHub Pages</strong>: see GitHub's policy.</li>
+      <li><strong>Data held by the developer</strong>: none, because none is collected.</li>
+    </ul>
+
+    <!-- ─────────── 10. SECURITY ─────────── -->
+    <h2 id="security" class="section-title">10. Security</h2>
+    <ul>
+      <li>
+        API keys are stored using Apple Keychain with
+        <code>kSecAttrAccessibleWhenUnlockedThisDeviceOnly</code> &mdash; they
+        are encrypted at rest, accessible only when the device is unlocked, and
+        do not sync to other devices via iCloud.
+      </li>
+      <li>
+        All network requests use HTTPS with TLS 1.2 or higher, enforced by
+        Apple's network stack.
+      </li>
+      <li>
+        The app contains no third-party SDKs that could introduce undisclosed
+        network behavior.
+      </li>
+      <li>
+        The website serves no JavaScript that transmits data to a remote
+        server. The setup form uses only the browser's local Credential
+        Management API and standard form-submit behavior, both of which
+        operate within the browser.
+      </li>
+    </ul>
+    <p>
+      No system is perfectly secure. If you believe you have discovered a
+      security vulnerability in the app or website, please report it via
+      <a href="https://github.com/fernbrowser/fernbrowser.github.io/issues">GitHub Issues</a>.
+    </p>
+
+    <!-- ─────────── 11. COOKIES ─────────── -->
+    <h2 id="cookies" class="section-title">11. Cookies and tracking</h2>
+    <p>
+      The website uses no cookies of any kind &mdash; no first-party cookies,
+      no third-party cookies, no local storage for tracking, no session
+      identifiers. No tracking pixels. No analytics services (Google
+      Analytics, Plausible, Fathom, or any other). No web fonts loaded from
+      external content delivery networks.
+    </p>
+    <p>
+      The app contains no advertising identifiers, no third-party tracking
+      SDKs, and does not use Apple's App Tracking Transparency framework to
+      request permission to track users &mdash; because it does not track
+      users.
+    </p>
+
+    <!-- ─────────── 12. APP STORE ─────────── -->
+    <h2 id="app-store" class="section-title">12. Apple App Store privacy disclosures</h2>
+    <p>
+      Apple requires every app on the App Store to declare its data collection
+      practices via "Privacy Nutrition Labels." Fern Browser's label reflects
+      the practices described in this policy:
+    </p>
+    <ul>
+      <li><strong>Data Not Collected</strong>: the developer collects no data from users of Fern Browser.</li>
+    </ul>
+    <p>
+      Data transmitted to third parties (OpenRouter and upstream AI providers)
+      when you choose to use the AI chat feature is processed by those third
+      parties under their own privacy policies. The developer has no
+      visibility into that data.
+    </p>
+
+    <!-- ─────────── 13. CHANGES ─────────── -->
+    <h2 id="changes" class="section-title">13. Changes to this policy</h2>
+    <p>
+      If this policy changes in a material way, the "Last updated" date at the
+      top of the document will be revised, and notable changes will be
+      summarized in the app's About screen and at the top of this page for at
+      least 30 days. Continued use of the app or website after a change
+      indicates acceptance of the updated policy. If you do not agree with the
+      updated policy, you may stop using the app.
+    </p>
+    <p>
+      The full history of changes is available in the
+      <a href="https://github.com/fernbrowser/fernbrowser.github.io/commits/main/privacy.html">commit log</a>
+      of the website's source repository on GitHub.
+    </p>
+
+    <!-- ─────────── 14. CONTACT ─────────── -->
+    <h2 id="contact" class="section-title">14. Contact</h2>
+    <p>
+      For any privacy-related question, complaint, or rights request, please
+      open an issue at
+      <a href="https://github.com/fernbrowser/fernbrowser.github.io/issues">github.com/fernbrowser/fernbrowser.github.io/issues</a>.
+      Privacy requests will be acknowledged within 30 days where the law
+      requires acknowledgment.
+    </p>
+
+    <footer>
+      <p>
+        &copy; <span id="year"></span> Aiden Mathew. Fern Browser is not
+        affiliated with OpenAI, Anthropic, Google, Meta, DeepSeek, OpenRouter,
+        or Apple. Apple, Apple Watch, watchOS, App Store, and Keychain are
+        trademarks of Apple Inc.
+      </p>
+      <p>
+        <a href="./">&larr; Back to home</a>
+      </p>
+    </footer>
+  </main>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
