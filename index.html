@@ -181,11 +181,36 @@
       position: relative;
       display: flex; justify-content: center; align-items: center;
     }
+    /* Soft accent halo behind the hero image */
+    .hero-shot::before {
+      content: "";
+      position: absolute;
+      inset: 10% 15%;
+      background: radial-gradient(60% 60% at 50% 50%,
+                                  rgba(2, 59, 230, 0.55) 0%,
+                                  rgba(102, 242, 220, 0.18) 35%,
+                                  transparent 70%);
+      filter: blur(40px);
+      z-index: 0;
+      animation: heroFloat 6s ease-in-out infinite alternate;
+    }
+    @keyframes heroFloat {
+      from { transform: translateY(-8px) scale(0.98); }
+      to   { transform: translateY(8px)  scale(1.04); }
+    }
     .hero-shot img {
+      position: relative;
+      z-index: 1;
       max-width: 100%;
       max-height: 560px;
-      filter: drop-shadow(0 30px 80px rgba(2, 59, 230, 0.35))
-              drop-shadow(0 10px 30px rgba(0, 0, 0, 0.55));
+      border-radius: 28px;
+      filter: drop-shadow(0 30px 80px rgba(2, 59, 230, 0.40))
+              drop-shadow(0 12px 30px rgba(0, 0, 0, 0.55));
+      animation: heroBob 6s ease-in-out infinite alternate;
+    }
+    @keyframes heroBob {
+      from { transform: translateY(-4px); }
+      to   { transform: translateY(4px); }
     }
     .hero-shot.placeholder::before {
       content: "Place your hero device frame at\A./screenshots/hero.png";
@@ -227,12 +252,39 @@
       border: 0.5px solid var(--hairline);
       border-radius: var(--radius-lg);
       padding: 28px 18px 20px;
-      transition: background .2s, border-color .2s, transform .2s;
+      transition: background .25s, border-color .25s, transform .25s, box-shadow .25s;
+      overflow: hidden;
+      position: relative;
     }
-    .shot:hover { background: var(--card-hover); border-color: rgba(255,255,255,0.18); transform: translateY(-3px); }
+    /* Accent glow behind each shot's image */
+    .shot::before {
+      content: "";
+      position: absolute;
+      top: 10%; left: 50%;
+      width: 70%; aspect-ratio: 1;
+      transform: translateX(-50%);
+      background: radial-gradient(circle, rgba(2, 59, 230, 0.30) 0%, transparent 65%);
+      filter: blur(28px);
+      opacity: 0.7;
+      transition: opacity .25s;
+      pointer-events: none;
+    }
+    .shot:hover {
+      background: var(--card-hover);
+      border-color: rgba(102, 242, 220, 0.30);
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.4),
+                  0 0 0 0.5px rgba(102, 242, 220, 0.15);
+    }
+    .shot:hover::before { opacity: 1; }
+    .shot:hover img { transform: scale(1.04); }
     .shot img {
+      position: relative;
+      z-index: 1;
       width: 100%; height: auto;
-      filter: drop-shadow(0 12px 30px rgba(0,0,0,0.5));
+      border-radius: 18px;
+      filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.55));
+      transition: transform .35s cubic-bezier(.2,.8,.3,1.2);
     }
     .shot.placeholder {
       display: grid; place-items: center;
