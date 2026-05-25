@@ -874,35 +874,38 @@
 
       gsap.registerPlugin(ScrollTrigger);
 
-      // Set initial states so nothing flashes before animations run.
-      gsap.set([
-        '.hero .eyebrow', 'h1', '.hero .lede',
-        '.cta-row', '.meta-line',
-        '.hero-shot img',
-        '.section-label', '.section-title', '.section-lede',
-        '.shot', '.feature', '.privacy-card',
-        '.final-cta h2', '.final-cta p', '.final-cta .app-store-badge'
-      ], { opacity: 0 });
+      // Pre-hide everything we're going to animate. Doing this before paint
+      // (script is at the end of body) prevents a flash of visible content.
+      // We pre-offset everything by translateY so the "to" animations have
+      // a real distance to cover.
+      gsap.set('.hero .eyebrow',                     { opacity: 0, y: 14 });
+      gsap.set('h1',                                 { opacity: 0, y: 28 });
+      gsap.set('.hero .lede',                        { opacity: 0, y: 18 });
+      gsap.set('.cta-row',                           { opacity: 0, y: 16 });
+      gsap.set('.meta-line',                         { opacity: 0, y: 12 });
+      gsap.set('.hero-shot img',                     { opacity: 0, scale: 0.92, rotation: -2 });
+      gsap.set('.section-label, .section-title, .section-lede', { opacity: 0, y: 26 });
+      gsap.set('.shots .shot',                       { opacity: 0, y: 40, scale: 0.94 });
+      gsap.set('.features .feature',                 { opacity: 0, y: 30 });
+      gsap.set('.privacy-card',                      { opacity: 0, scale: 0.94 });
+      gsap.set('.final-cta h2, .final-cta p, .final-cta .app-store-badge',
+                                                     { opacity: 0, y: 28 });
 
       // ── Hero entry timeline ─────────────────────────────────────────
       var heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
       heroTl
-        .from('.hero .eyebrow', { y: 14, opacity: 0, duration: 0.55 })
-        .from('h1', { y: 28, opacity: 0, duration: 0.75 }, '-=0.35')
-        .from('.hero .lede', { y: 18, opacity: 0, duration: 0.6 }, '-=0.45')
-        .from('.cta-row', { y: 16, opacity: 0, duration: 0.5 }, '-=0.35')
-        .from('.meta-line', { y: 12, opacity: 0, duration: 0.45 }, '-=0.30')
-        .from('.hero-shot img', {
-          scale: 0.92,
-          opacity: 0,
-          rotation: -2,
+        .to('.hero .eyebrow',  { opacity: 1, y: 0, duration: 0.55 })
+        .to('h1',              { opacity: 1, y: 0, duration: 0.75 }, '-=0.35')
+        .to('.hero .lede',     { opacity: 1, y: 0, duration: 0.60 }, '-=0.45')
+        .to('.cta-row',        { opacity: 1, y: 0, duration: 0.50 }, '-=0.35')
+        .to('.meta-line',      { opacity: 1, y: 0, duration: 0.45 }, '-=0.30')
+        .to('.hero-shot img',  {
+          opacity: 1, scale: 1, rotation: 0,
           duration: 1.05,
           ease: 'back.out(1.4)'
-        }, 0.15)
-        .set('.hero .eyebrow, h1, .hero .lede, .cta-row, .meta-line, .hero-shot img',
-             { clearProps: 'opacity' });
+        }, 0.15);
 
-      // ── Ambient hero bob (continuous) ───────────────────────────────
+      // ── Ambient hero bob (continuous, starts after entry) ──────────
       gsap.to('.hero-shot img', {
         y: 8,
         duration: 3.2,
@@ -916,9 +919,8 @@
       gsap.utils.toArray('section').forEach(function (section) {
         var items = section.querySelectorAll('.section-label, .section-title, .section-lede');
         if (!items.length) return;
-        gsap.from(items, {
-          y: 26,
-          opacity: 0,
+        gsap.to(items, {
+          opacity: 1, y: 0,
           duration: 0.7,
           stagger: 0.10,
           ease: 'power3.out',
@@ -926,16 +928,13 @@
             trigger: section,
             start: 'top 82%',
             toggleActions: 'play none none none'
-          },
-          onComplete: function () { gsap.set(items, { clearProps: 'opacity' }); }
+          }
         });
       });
 
       // ── Screenshot cards stagger ────────────────────────────────────
-      gsap.from('.shots .shot', {
-        y: 40,
-        opacity: 0,
-        scale: 0.94,
+      gsap.to('.shots .shot', {
+        opacity: 1, y: 0, scale: 1,
         duration: 0.8,
         stagger: 0.12,
         ease: 'power3.out',
@@ -943,14 +942,12 @@
           trigger: '.shots',
           start: 'top 78%',
           toggleActions: 'play none none none'
-        },
-        onComplete: function () { gsap.set('.shots .shot', { clearProps: 'opacity' }); }
+        }
       });
 
       // ── Feature cards stagger ───────────────────────────────────────
-      gsap.from('.features .feature', {
-        y: 30,
-        opacity: 0,
+      gsap.to('.features .feature', {
+        opacity: 1, y: 0,
         duration: 0.65,
         stagger: 0.10,
         ease: 'power3.out',
@@ -958,28 +955,24 @@
           trigger: '.features',
           start: 'top 80%',
           toggleActions: 'play none none none'
-        },
-        onComplete: function () { gsap.set('.features .feature', { clearProps: 'opacity' }); }
+        }
       });
 
       // ── Privacy card scale-in ───────────────────────────────────────
-      gsap.from('.privacy-card', {
-        scale: 0.94,
-        opacity: 0,
+      gsap.to('.privacy-card', {
+        opacity: 1, scale: 1,
         duration: 0.85,
         ease: 'power3.out',
         scrollTrigger: {
           trigger: '.privacy-card',
           start: 'top 82%',
           toggleActions: 'play none none none'
-        },
-        onComplete: function () { gsap.set('.privacy-card', { clearProps: 'opacity' }); }
+        }
       });
 
       // ── Final CTA reveal ────────────────────────────────────────────
-      gsap.from('.final-cta h2, .final-cta p, .final-cta .app-store-badge', {
-        y: 28,
-        opacity: 0,
+      gsap.to('.final-cta h2, .final-cta p, .final-cta .app-store-badge', {
+        opacity: 1, y: 0,
         duration: 0.7,
         stagger: 0.12,
         ease: 'power3.out',
@@ -987,9 +980,6 @@
           trigger: '.final-cta',
           start: 'top 82%',
           toggleActions: 'play none none none'
-        },
-        onComplete: function () {
-          gsap.set('.final-cta h2, .final-cta p, .final-cta .app-store-badge', { clearProps: 'opacity' });
         }
       });
 
