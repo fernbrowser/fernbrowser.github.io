@@ -206,11 +206,9 @@
       border-radius: 28px;
       filter: drop-shadow(0 30px 80px rgba(2, 59, 230, 0.40))
               drop-shadow(0 12px 30px rgba(0, 0, 0, 0.55));
-      animation: heroBob 6s ease-in-out infinite alternate;
-    }
-    @keyframes heroBob {
-      from { transform: translateY(-4px); }
-      to   { transform: translateY(4px); }
+      will-change: transform;
+      /* JS (GSAP) drives the ambient bob, entry animation, and mouse tilt
+         so we don't fight it with a CSS keyframe. */
     }
     .hero-shot.placeholder::before {
       content: "Place your hero device frame at\A./screenshots/hero.png";
@@ -861,6 +859,159 @@
         form.action = "?saved=1#setup";
         // Do NOT call e.preventDefault() — the navigation is what triggers
         // Safari's "Save Password?" prompt.
+      }
+    })();
+  </script>
+
+  <!-- ─────────── GSAP animations ─────────── -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script>
+    (function () {
+      // Respect users who've asked the OS to reduce motion.
+      var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (prefersReduced || typeof gsap === 'undefined') return;
+
+      gsap.registerPlugin(ScrollTrigger);
+
+      // Set initial states so nothing flashes before animations run.
+      gsap.set([
+        '.hero .eyebrow', 'h1', '.hero .lede',
+        '.cta-row', '.meta-line',
+        '.hero-shot img',
+        '.section-label', '.section-title', '.section-lede',
+        '.shot', '.feature', '.privacy-card',
+        '.final-cta h2', '.final-cta p', '.final-cta .app-store-badge'
+      ], { opacity: 0 });
+
+      // ── Hero entry timeline ─────────────────────────────────────────
+      var heroTl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+      heroTl
+        .from('.hero .eyebrow', { y: 14, opacity: 0, duration: 0.55 })
+        .from('h1', { y: 28, opacity: 0, duration: 0.75 }, '-=0.35')
+        .from('.hero .lede', { y: 18, opacity: 0, duration: 0.6 }, '-=0.45')
+        .from('.cta-row', { y: 16, opacity: 0, duration: 0.5 }, '-=0.35')
+        .from('.meta-line', { y: 12, opacity: 0, duration: 0.45 }, '-=0.30')
+        .from('.hero-shot img', {
+          scale: 0.92,
+          opacity: 0,
+          rotation: -2,
+          duration: 1.05,
+          ease: 'back.out(1.4)'
+        }, 0.15)
+        .set('.hero .eyebrow, h1, .hero .lede, .cta-row, .meta-line, .hero-shot img',
+             { clearProps: 'opacity' });
+
+      // ── Ambient hero bob (continuous) ───────────────────────────────
+      gsap.to('.hero-shot img', {
+        y: 8,
+        duration: 3.2,
+        ease: 'sine.inOut',
+        yoyo: true,
+        repeat: -1,
+        delay: 1.6
+      });
+
+      // ── Section heading reveals ─────────────────────────────────────
+      gsap.utils.toArray('section').forEach(function (section) {
+        var items = section.querySelectorAll('.section-label, .section-title, .section-lede');
+        if (!items.length) return;
+        gsap.from(items, {
+          y: 26,
+          opacity: 0,
+          duration: 0.7,
+          stagger: 0.10,
+          ease: 'power3.out',
+          scrollTrigger: {
+            trigger: section,
+            start: 'top 82%',
+            toggleActions: 'play none none none'
+          },
+          onComplete: function () { gsap.set(items, { clearProps: 'opacity' }); }
+        });
+      });
+
+      // ── Screenshot cards stagger ────────────────────────────────────
+      gsap.from('.shots .shot', {
+        y: 40,
+        opacity: 0,
+        scale: 0.94,
+        duration: 0.8,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.shots',
+          start: 'top 78%',
+          toggleActions: 'play none none none'
+        },
+        onComplete: function () { gsap.set('.shots .shot', { clearProps: 'opacity' }); }
+      });
+
+      // ── Feature cards stagger ───────────────────────────────────────
+      gsap.from('.features .feature', {
+        y: 30,
+        opacity: 0,
+        duration: 0.65,
+        stagger: 0.10,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.features',
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        },
+        onComplete: function () { gsap.set('.features .feature', { clearProps: 'opacity' }); }
+      });
+
+      // ── Privacy card scale-in ───────────────────────────────────────
+      gsap.from('.privacy-card', {
+        scale: 0.94,
+        opacity: 0,
+        duration: 0.85,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.privacy-card',
+          start: 'top 82%',
+          toggleActions: 'play none none none'
+        },
+        onComplete: function () { gsap.set('.privacy-card', { clearProps: 'opacity' }); }
+      });
+
+      // ── Final CTA reveal ────────────────────────────────────────────
+      gsap.from('.final-cta h2, .final-cta p, .final-cta .app-store-badge', {
+        y: 28,
+        opacity: 0,
+        duration: 0.7,
+        stagger: 0.12,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.final-cta',
+          start: 'top 82%',
+          toggleActions: 'play none none none'
+        },
+        onComplete: function () {
+          gsap.set('.final-cta h2, .final-cta p, .final-cta .app-store-badge', { clearProps: 'opacity' });
+        }
+      });
+
+      // ── Mouse-follow tilt on hero (desktop only) ───────────────────
+      var heroShot = document.querySelector('.hero-shot');
+      var heroImg  = document.querySelector('.hero-shot img');
+      if (heroShot && heroImg && window.matchMedia('(min-width: 900px) and (hover: hover)').matches) {
+        var tiltQuickX = gsap.quickTo(heroImg, 'rotationY', { duration: 0.5, ease: 'power2.out' });
+        var tiltQuickY = gsap.quickTo(heroImg, 'rotationX', { duration: 0.5, ease: 'power2.out' });
+        gsap.set(heroImg, { transformPerspective: 900, transformOrigin: 'center center' });
+
+        heroShot.addEventListener('mousemove', function (e) {
+          var rect = heroShot.getBoundingClientRect();
+          var x = (e.clientX - rect.left) / rect.width;
+          var y = (e.clientY - rect.top)  / rect.height;
+          tiltQuickX((x - 0.5) *  6);
+          tiltQuickY((y - 0.5) * -6);
+        });
+        heroShot.addEventListener('mouseleave', function () {
+          tiltQuickX(0);
+          tiltQuickY(0);
+        });
       }
     })();
   </script>
